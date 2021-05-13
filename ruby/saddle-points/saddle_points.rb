@@ -9,10 +9,10 @@ class Matrix
   def saddle_points
     column_mins = find_column_mins
 
-    rows.each_with_index.map { |row_values, row|
+    rows.each_with_index.filter_map do |row_values, row|
       column = column_mins.find_index(row_values.max)
       [row, column] if column
-    }.compact
+    end
   end
 
   private
