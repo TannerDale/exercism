@@ -7,22 +7,10 @@ To get started with TDD, see the `README.md` file in your
 =end
 
 class Board
-  VALIDATE = ->(board, headers) {
-    raise ArgumentError unless headers.all? do |row|
-      row.uniq == %w(+ -)
-    end
-    raise ArgumentError unless board.all? do |row|
-      row.length == board.first.length
-    end
-    raise ArgumentError unless board[1...-1].all? do |row|
-      row.all? { |item| [' ', '*', '|'].include?(item) }
-    end
-  }
-
   def self.transform(board)
     board.map!(&:chars)
 
-    VALIDATE.call(board, [board.first, board.last])
+    validate(board, [board.first, board.last])
 
     count_adjacent_mines(board)
   end
@@ -48,6 +36,18 @@ class Board
           mine_count == 0 ? ' ' : mine_count.to_s
         end
       }.join
+    end
+  end
+
+  def self.validate(board, headers)
+    raise ArgumentError unless headers.all? do |row|
+      row.uniq == %w(+ -)
+    end
+    raise ArgumentError unless board.all? do |row|
+      row.length == board.first.length
+    end
+    raise ArgumentError unless board[1...-1].all? do |row|
+      row.all? { |item| [' ', '*', '|'].include?(item) }
     end
   end
 end
