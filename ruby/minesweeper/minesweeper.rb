@@ -6,8 +6,10 @@ To get started with TDD, see the `README.md` file in your
 `ruby/minesweeper` directory.
 =end
 
-class Board
-  def self.transform(board)
+module Board
+  extend self
+
+  def transform(board)
     board.map!(&:chars)
 
     validate(board, [board.first, board.last])
@@ -15,7 +17,9 @@ class Board
     count_adjacent_mines(board)
   end
 
-  def self.count_adjacent_mines(board)
+  private
+  
+  def count_adjacent_mines(board)
     board.each_with_index.map do |row, row_id|
       row.each_with_index.map { |item, column_id|
         if %w(+ - | *).include?(item)
@@ -39,7 +43,7 @@ class Board
     end
   end
 
-  def self.validate(board, headers)
+  def validate(board, headers)
     raise ArgumentError unless headers.all? do |row|
       row.uniq == %w(+ -)
     end
