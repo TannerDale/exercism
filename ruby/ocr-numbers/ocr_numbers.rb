@@ -35,7 +35,7 @@ module OcrNumbers
     raise ArgumentError if rows.any? { |row| row.length % 3 != 0 }
 
     rows.each_slice(4).map { |row_of_nums|
-      seperate_numbers(row_of_nums).flat_map { |num|
+      seperate_numbers(row_of_nums).map { |num|
         decipher_number(num)
       }.join
     }.join(",")
